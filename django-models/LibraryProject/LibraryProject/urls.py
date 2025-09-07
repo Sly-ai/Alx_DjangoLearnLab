@@ -25,6 +25,7 @@ urlpatterns = [
     path('library/<int:pk>/', include('relationship_app.urls')),
     path('books/<int:pk>/', include('relationship_app.urls')),
     path('', include('relationship_app.urls')),
+    path('relationship/', include('relationship_app.urls')),
     ] # Added include for relationship_app URLs
 
 
