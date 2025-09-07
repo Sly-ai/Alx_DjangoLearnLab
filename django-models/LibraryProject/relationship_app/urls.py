@@ -1,10 +1,7 @@
-# Python
-from django.urls import path, include
-from django.contrib import admin
+from django.urls import path
+from .views import list_books, LibraryDetailView
 
-urlpatterns = [path('admin/', admin.site.urls),
+urlpatterns = [
     path('books/', list_books, name='list_books'),  # FBV
-    path('library/<int:pk>/', LibraryDetailView.as_view(), name='library_detail'),  # CB
-    path('relationship/', include('relationship_app.urls')),
-    path('admin/', admin.site.urls),
-    ]
+    path('library/<int:pk>/', LibraryDetailView.as_view(), name='library_detail'),  # CBV
+]
