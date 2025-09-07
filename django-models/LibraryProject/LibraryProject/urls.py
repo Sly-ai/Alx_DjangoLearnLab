@@ -19,13 +19,8 @@ from django.contrib import admin
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('relationship/', include('relationship_app.urls')),
-    path('library/', include('relationship_app.urls')),
-    path('books/', include('relationship_app.urls')),
-    path('library/<int:pk>/', include('relationship_app.urls')),
-    path('books/<int:pk>/', include('relationship_app.urls')),
-    path('', include('relationship_app.urls')),
-    path('relationship/', include('relationship_app.urls')),
+    path('relationship_app/', include('relationship_app.urls')),  # Added this line
+    path('', include('relationship_app.urls')),  # Main app URLs
     ] # Added include for relationship_app URLs
 
 
