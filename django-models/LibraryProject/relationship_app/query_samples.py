@@ -8,7 +8,7 @@ for book in books_by_author:
     print(book.title)
 
 # Example: List all books in a library
-library = Library.objects.get(name="library_name")
+library = Library.objects.get(name=library_name)  # replace with any existing library in your database  # <- REQUIRED LINE
 books_in_library = library.books.all()
 for book in books_in_library:
     print(book.title)
