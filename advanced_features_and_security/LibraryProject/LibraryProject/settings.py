@@ -192,3 +192,24 @@ X_FRAME_OPTIONS = "DENY"
 # Force cookies to be sent only over HTTPS
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
+
+# ================================
+# 🔒 Django Security Settings
+# ================================
+
+# Redirect all HTTP to HTTPS
+SECURE_SSL_REDIRECT = True  # Enforce HTTPS on all requests
+
+# HTTP Strict Transport Security (HSTS)
+SECURE_HSTS_SECONDS = 31536000  # 1 year
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True  # Apply to subdomains
+SECURE_HSTS_PRELOAD = True  # Allow preloading in browsers
+
+# Secure cookies
+SESSION_COOKIE_SECURE = True  # Only transmit session cookies via HTTPS
+CSRF_COOKIE_SECURE = True     # Only transmit CSRF cookies via HTTPS
+
+# Security headers
+X_FRAME_OPTIONS = "DENY"  # Prevent clickjacking
+SECURE_CONTENT_TYPE_NOSNIFF = True  # Prevent MIME-sniffing
+SECURE_BROWSER_XSS_FILTER = True    # Enable XSS protection in browsers
