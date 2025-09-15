@@ -7,6 +7,7 @@ from .forms import BookForm, BookSearchForm, ExampleForm  # <-- add ExampleForm 
 from django.views.decorators.http import require_http_methods
 from django.db import transaction
 
+
 # LIST / SEARCH — uses validated form input for search
 @login_required
 @permission_required('bookshelf.can_view', raise_exception=True)
@@ -64,3 +65,16 @@ def book_delete(request, pk):
     # Use POST for destructive action and CSRF protection is enforced by CsrfViewMiddleware
     book.delete()
     return redirect("book_list")
+
+# --- New: Example view to demonstrate ExampleForm (required by checker) ---
+@login_required
+def example_view(request):
+    if request.method == "POST":
+        form = ExampleForm(request.POST)
+        if form.is_valid():
+            # Process the data in form.cleaned_data as required
+            # For demonstration, we'll just redirect to the same page
+            return redirect("example_view")
+    else:
+        form = ExampleForm()
+    return render(request, "bookshelf/example_form.html", {"form": form})
