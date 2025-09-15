@@ -3,7 +3,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required, permission_required
 from .models import Book
-from .forms import BookForm, BookSearchForm, ExampleForm  # <-- add ExampleForm here
+from .forms import ExampleForm, BookForm, BookSearchForm  # <-- add ExampleForm here
 from django.views.decorators.http import require_http_methods
 from django.db import transaction
 
