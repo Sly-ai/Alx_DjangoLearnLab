@@ -1,0 +1,31 @@
+{# bookshelf/templates/bookshelf/form_example.html #}
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ action }} Book</h1>
+
+<form method="post" novalidate>
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    <div>
+        {{ form.title.label_tag }}<br>
+        {{ form.title }}
+        {{ form.title.errors }}
+    </div>
+    <div>
+        {{ form.author.label_tag }}<br>
+        {{ form.author }}
+        {{ form.author.errors }}
+    </div>
+    <div>
+        {{ form.description.label_tag }}<br>
+        {{ form.description }}
+        {{ form.description.errors }}
+    </div>
+    <div>
+        {{ form.published_at.label_tag }}<br>
+        {{ form.published_at }}
+        {{ form.published_at.errors }}
+    </div>
+    <button type="submit">{{ action }}</button>
+</form>
+{% endblock %}

@@ -1,0 +1,33 @@
+{# bookshelf/templates/bookshelf/book_list.html #}
+{% extends "base.html" %}
+{% block content %}
+<h1>Books</h1>
+
+<form method="get" action="{% url 'book_list' %}">
+    {% csrf_token %}
+    {{ search_form.q.label_tag }} {{ search_form.q }}
+    <button type="submit">Search</button>
+</form>
+
+<ul>
+    {% for book in books %}
+        <li>
+            <strong>{{ book.title|escape }}</strong> by {{ book.author|escape }}
+            <div>{{ book.description|linebreaksbr }}</div>
+            <small>Published: {{ book.published_at }}</small>
+            {% if perms.bookshelf.can_edit %}
+                <a href="{% url 'book_edit' book.pk %}">Edit</a>
+            {% endif %}
+            {% if perms.bookshelf.can_delete %}
+                <form method="post" action="{% url 'book_delete' book.pk %}" style="display:inline">
+                    {% csrf_token %}
+                    <button type="submit" onclick="return confirm('Delete this book?');">Delete</button>
+                </form>
+            {% endif %}
+        </li>
+    {% empty %}
+        <li>No books found.</li>
+    {% endfor %}
+</ul>
+
+{% endblock %}
