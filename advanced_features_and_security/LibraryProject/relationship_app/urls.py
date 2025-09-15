@@ -5,8 +5,8 @@ urlpatterns = [
     path("books/", views.list_books, name="list_books"),
     path("library/<int:pk>/", views.LibraryDetailView.as_view(), name="library_detail"),
     path('books/add/', views.add_book, name='add_book'),
-    path('books/edit/<int:book_id>/', views.edit_book, name='edit_book'),
-    path('books/delete/<int:book_id>/', views.delete_book, name='delete_book'),
+    path('books/edit/<int:book_id>/', views.edit_book, name='can_edit'),
+    path('books/delete/<int:book_id>/', views.delete_book, name='can_delete'),
 
     # Auth views
     path("register/", views.register_view, name="register"),

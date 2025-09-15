@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -23,9 +23,54 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-j2h5jnz_j@!7^to!q=&*hxs$67__6#&u4u9uk(yg^(i(%s%%1r'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "localhost 127.0.0.1").split()
+
+
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+
+# Prevent JavaScript from accessing the session cookie
+SESSION_COOKIE_HTTPONLY = True
+CSRF_COOKIE_HTTPONLY = False  # CSRF needs cookie readable by browser; keep False
+
+# Prevent content sniffing by browsers
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+# Enable browser XSS filter (some browsers)
+SECURE_BROWSER_XSS_FILTER = True
+
+# Clickjacking protection
+X_FRAME_OPTIONS = "DENY"
+
+# HSTS (HTTP Strict Transport Security)
+# Only enable this when you're serving over HTTPS and ready for HSTS
+SECURE_HSTS_SECONDS = 60  # start small during rollout, then increase (e.g. 2592000)
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = False
+
+# Redirect all HTTP to HTTPS (enable only when you have HTTPS)
+SECURE_SSL_REDIRECT = True
+
+# Other useful secure flags
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')  # if behind proxy
+# NOTE: Ensure your reverse proxy sets X-Forwarded-Proto
+
+# ----------------------
+# Content Security Policy (CSP)
+# ----------------------
+# We'll set a CSP via a small custom middleware (see middleware.py below)
+# A conservative default policy; adjust to allow required external domains (CDNs, APIs).
+CSP_POLICY = {
+    "default-src": ["'self'"],
+    "script-src": ["'self'"],
+    "style-src": ["'self'"],
+    "img-src": ["'self'", "data:"],
+    "font-src": ["'self'"],
+    "connect-src": ["'self'"],
+    "frame-ancestors": ["'none'"],
+}
 
 
 # Application definition
@@ -49,6 +94,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+     # Add CSP middleware right after SecurityMiddleware so header is set early
+    "LibraryProject.middleware.ContentSecurityPolicyMiddleware",
 ]
 
 ROOT_URLCONF = 'LibraryProject.urls'
@@ -130,3 +177,18 @@ LOGOUT_REDIRECT_URL = "login"
 
 # Custom User model
 AUTH_USER_MODEL = "relationship_app.CustomUser"
+
+# Security settings (add these near the bottom of settings.py)
+
+# Prevent content sniffing (stops some XSS/mime-based attacks)
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+# Old header-based XSS filter (some browsers, mostly legacy IE/EdgeHTML)
+SECURE_BROWSER_XSS_FILTER = True
+
+# Clickjacking protection
+X_FRAME_OPTIONS = "DENY"
+
+# Force cookies to be sent only over HTTPS
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
