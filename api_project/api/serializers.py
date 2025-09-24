@@ -3,5 +3,5 @@ from .models import Book
 
 class BookSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Book
-        fields = '__all__'
+        model = Book        # link it to the Book model
+        fields = '__all__'  # include *all* fields (title, author, year)
