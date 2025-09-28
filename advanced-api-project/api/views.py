@@ -4,16 +4,28 @@ from rest_framework import status
 from .models import Book
 from .serializers import BookSerializer
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
+from django_filters.rest_framework import DjangoFilterBackend
 
 
 # 📖 List all books (read-only allowed for unauthenticated users)
+# List all books with filtering, searching, and ordering
 class BookListView(generics.ListAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-    permission_classes = [permissions.AllowAny]  # anyone can view
-    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    permission_classes = [permissions.AllowAny]
+
+    # Add filtering, searching, ordering
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+
+    # Filtering: exact matches
+    filterset_fields = ['title', 'author', 'publication_year']
+
+    # Searching: partial matches
     search_fields = ['title', 'author']
-    ordering_fields = ['title', 'published_date']
+
+    # Ordering: sort results
+    ordering_fields = ['title', 'publication_year']
+    ordering = ['title']  # default ordering
 
 
 # 📖 Retrieve a single book (read-only allowed for unauthenticated users)
