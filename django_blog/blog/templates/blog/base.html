@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Django Blog{% endblock %}</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static 'blog/css/styles.css' %}">
+
+    <!-- JS (optional in head) -->
+    <script src="{% static 'blog/js/scripts.js' %}"></script>
+</head>
+<body>
+    <!-- Header / Navbar -->
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'posts' %}">Blog Posts</a></li>
+                <li><a href="{% url 'login' %}">Login</a></li>
+                <li><a href="{% url 'register' %}">Register</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main content -->
+    <div class="content">
+        {% block content %}
+        <!-- Page-specific content goes here -->
+        {% endblock %}
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Django Blog</p>
+    </footer>
+
+    <!-- JS (if you want scripts at the bottom) -->
+    <!-- <script src="{% static 'blog/js/scripts.js' %}"></script> -->
+</body>
+</html>
