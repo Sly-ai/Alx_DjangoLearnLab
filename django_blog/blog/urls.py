@@ -18,4 +18,11 @@ urlpatterns = [
     # Registration & profile (custom)
     path('register/', views.register, name='register'),
     path('profile/', views.profile, name='profile'),
+
+    # Commenting
+    path('posts/<int:post_pk>/comments/new/', views.CommentCreate.as_view(), name='comment-create'),
+    path('posts/<int:post_pk>/comments/<int:pk>/edit/', views.CommentUpdate.as_view(), name='comment-update'),
+    path('posts/<int:post_pk>/comments/<int:pk>/delete/', views.CommentDelete.as_view(), name='comment-delete'),
+
+
 ]

@@ -1,5 +1,5 @@
 from django import forms
-from .models import Post, Profile
+from .models import Post, Profile, Comment
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
@@ -34,3 +34,14 @@ class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ('bio', 'avatar')
+
+class CommentForm(forms.ModelForm):
+    content = forms.CharField(
+        widget=forms.Textarea(attrs={'rows': 3, 'placeholder': 'Write a comment...'}),
+        max_length=2000,
+        label=''
+    )
+
+    class Meta:
+        model = Comment
+        fields = ['content']
