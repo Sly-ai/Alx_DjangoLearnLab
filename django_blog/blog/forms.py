@@ -1,5 +1,5 @@
 from django import forms
-from .models import Post, Profile, Comment
+from .models import Post, Profile, Comment, Tag
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
@@ -8,6 +8,33 @@ class PostForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ['title', 'content']  # Author is set automatically
+    
+    # user-facing comma-separated tags field (not a direct model field)
+    tags_field = forms.CharField(
+        required=False,
+        help_text="Add tags separated by commas (e.g. django,python,tutorial)",
+        widget=forms.TextInput(attrs={'placeholder': 'django, python, tutorial'})
+    )
+
+    class Meta:
+        model = Post
+        fields = ['title', 'content']  # tags handled via tags_field
+
+    def __init__(self, *args, **kwargs):
+        # if instance passed, populate tags_field with existing tags
+        super().__init__(*args, **kwargs)
+        if self.instance and self.instance.pk:
+            self.fields['tags_field'].initial = ', '.join([t.name for t in self.instance.tags.all()])
+
+    def clean_tags_field(self):
+        raw = self.cleaned_data.get('tags_field', '')
+        # Normalize: split by comma, strip whitespace, remove empties, unique-lowercase
+        names = [n.strip() for n in raw.split(',') if n.strip()]
+        normalized = []
+        for n in names:
+            if n.lower() not in [x.lower() for x in normalized]:
+                normalized.append(n)
+        return normalized  # list of tag names
 
 class CustomUserCreationForm(UserCreationForm):
     email = forms.EmailField(required=True, help_text="Required. Enter a valid email address.")

@@ -1,20 +1,32 @@
 {% extends "blog/base.html" %}
+
 {% block title %}{{ post.title }}{% endblock %}
+
 {% block content %}
 <article>
   <h1>{{ post.title }}</h1>
-  <p>{{ post.content }}</p>
   <p>By {{ post.author.username }} on {{ post.published_date }}</p>
+  <div>{{ post.content|linebreaks }}</div>
+
+  {% if post.tags.exists %}
+  <p>Tags:
+      {% for tag in post.tags.all %}
+          <a href="{% url 'posts-by-tag' tag.name %}">{{ tag.name }}</a>{% if not forloop.last %}, {% endif %}
+      {% endfor %}
+  </p>
+  {% endif %}
 </article>
 
 <hr>
+
 <section id="comments">
   <h2>Comments ({{ comments|length }})</h2>
 
   {% for comment in comments %}
     <div class="comment" id="comment-{{ comment.pk }}">
-      <p><strong>{{ comment.author.username }}</strong>
-         <small>{{ comment.created_at|date:"M d, Y H:i" }}</small>
+      <p>
+        <strong>{{ comment.author.username }}</strong>
+        <small>{{ comment.created_at|date:"M d, Y H:i" }}</small>
       </p>
       <div>{{ comment.content|linebreaks }}</div>
 
@@ -25,22 +37,4 @@
         </p>
       {% endif %}
     </div>
-    <hr>
-  {% empty %}
-    <p>No comments yet. Be the first to comment!</p>
-  {% endfor %}
-</section>
-
-<section id="add-comment">
-  {% if user.is_authenticated %}
-    <h3>Leave a comment</h3>
-    <form action="{% url 'comment-create' post.pk %}" method="post">
-      {% csrf_token %}
-      {{ comment_form.as_p }}
-      <button type="submit">Post comment</button>
-    </form>
-  {% else %}
-    <p><a href="{% url 'login' %}?next={{ request.path }}">Log in</a> to leave a comment.</p>
-  {% endif %}
-</section>
-{% endblock %}
+    <h

@@ -1,0 +1,19 @@
+{% extends "blog/base.html" %}
+{% block title %}Search results{% endblock %}
+{% block content %}
+<h1>Search results for "{{ request.GET.q }}"</h1>
+
+{% if posts %}
+  {% for post in posts %}
+    <article>
+      <h2><a href="{% url 'post-detail' post.pk %}">{{ post.title }}</a></h2>
+      <p>{{ post.content|truncatewords:25 }}</p>
+    </article>
+  {% endfor %}
+  {% if is_paginated %}
+    <!-- pagination controls -->
+  {% endif %}
+{% else %}
+  <p>No results found for "{{ request.GET.q }}".</p>
+{% endif %}
+{% endblock %}
