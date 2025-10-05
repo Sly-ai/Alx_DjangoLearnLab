@@ -2,6 +2,7 @@ from django.urls import path
 from django.contrib.auth import views as auth_views
 from . import views
 
+
 urlpatterns = [
     path('', views.index, name='home'),             # Home page
     path('posts/', views.post_list, name='posts'),  # Blog posts
@@ -25,7 +26,8 @@ urlpatterns = [
     path('comment/<int:pk>/delete/', views.CommentDeleteView.as_view(), name='comment-delete'),
 
       # tags
-    path('tags/<str:tag_name>/', views.TaggedPostListView.as_view(), name='posts-by-tag'),
+    path('tags/<slug:tag_slug>/', views.PostByTagListView.as_view(), name='posts-by-tag'),
+    path('tags/', views.TagListView.as_view(), name='tag-list'),
 
     # search
     path('search/', views.SearchResultsView.as_view(), name='search'),
