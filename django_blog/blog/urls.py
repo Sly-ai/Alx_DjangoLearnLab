@@ -20,9 +20,9 @@ urlpatterns = [
     path('profile/', views.profile, name='profile'),
 
     # Commenting
-    path('posts/<int:post_pk>/comments/new/', views.CommentCreate.as_view(), name='comment-create'),
-    path('posts/<int:post_pk>/comments/<int:pk>/edit/', views.CommentUpdate.as_view(), name='comment-update'),
-    path('posts/<int:post_pk>/comments/<int:pk>/delete/', views.CommentDelete.as_view(), name='comment-delete'),
+    path('posts/<int:post_pk>/comments/new/', views.CommentCreateView.as_view(), name='comment-create'),
+    path('posts/<int:post_pk>/comments/<int:pk>/edit/', views.CommentUpdateView.as_view(), name='comment-update'),
+    path('posts/<int:post_pk>/comments/<int:pk>/delete/', views.CommentDeleteView.as_view(), name='comment-delete'),
 
 
 ]

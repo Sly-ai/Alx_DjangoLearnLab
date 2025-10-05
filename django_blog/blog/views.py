@@ -106,7 +106,7 @@ def profile(request):
     return render(request, 'blog/profile.html', context)
 
 # Create comment for a given post
-class CommentCreate(LoginRequiredMixin, CreateView):
+class CommentCreateView(LoginRequiredMixin, CreateView):
     model = Comment
     form_class = CommentForm
     template_name = 'blog/comment_form.html'  # used if someone navigates directly
@@ -125,7 +125,7 @@ class CommentCreate(LoginRequiredMixin, CreateView):
         return reverse('post-detail', kwargs={'pk': self.post.pk})
 
 # Update comment (author-only)
-class CommentUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+class CommentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Comment
     form_class = CommentForm
     template_name = 'blog/comment_form.html'
@@ -142,7 +142,7 @@ class CommentUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return reverse('post-detail', kwargs={'pk': self.get_object().post.pk})
 
 # Delete comment (author-only)
-class CommentDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Comment
     template_name = 'blog/comment_confirm_delete.html'
 
