@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My DRF API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f7f7f7;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 700px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #007BFF;
+        }
+        .endpoint {
+            margin: 10px 0;
+            padding: 10px;
+            background: #f1f1f1;
+            border-left: 4px solid #007BFF;
+        }
+        .endpoint code {
+            font-weight: bold;
+            color: #444;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to My DRF API</h1>
+        <p>This is the index page for your API. Below are some useful endpoints:</p>
+
+        <div class="endpoint">
+            <p><strong>Token Authentication:</strong></p>
+            <code>POST /api/token/</code> – Obtain a token with <code>username</code> and <code>password</code>.
+        </div>
+
+        <div class="endpoint">
+            <p><strong>Example Protected Endpoint:</strong></p>
+            <code>GET /api/hello/</code> – Access with <code>Authorization: Token &lt;your_token&gt;</code>.
+        </div>
+
+        <p>Use an API client like <strong>Postman</strong>, <strong>HTTPie</strong>, or <strong>curl</strong> to interact with your endpoints.</p>
+    </div>
+</body>
+</html>
