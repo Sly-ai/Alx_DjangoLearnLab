@@ -2,12 +2,17 @@ from django import forms
 from .models import Post, Profile, Comment, Tag
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from taggit.forms import TagWidget
 
 
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ['title', 'content']  # Author is set automatically
+        widgets = {
+            'content': forms.Textarea(attrs={'rows': 10, 'placeholder': 'Write your post content here...'}),
+            'tags': TagWidget(),
+        }
     
     # user-facing comma-separated tags field (not a direct model field)
     tags_field = forms.CharField(
@@ -15,10 +20,6 @@ class PostForm(forms.ModelForm):
         help_text="Add tags separated by commas (e.g. django,python,tutorial)",
         widget=forms.TextInput(attrs={'placeholder': 'django, python, tutorial'})
     )
-
-    class Meta:
-        model = Post
-        fields = ['title', 'content']  # tags handled via tags_field
 
     def __init__(self, *args, **kwargs):
         # if instance passed, populate tags_field with existing tags
